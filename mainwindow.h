@@ -31,7 +31,7 @@ public:
     void paintEvent(QPaintEvent *event);
     void FindBlock();
     void generate();
-    void AutoFind();
+    void AutoFind(int startx ,int starty);
     void StopGame();
     ~MainWindow();
 
@@ -70,7 +70,6 @@ private:
     };
     int visited[50][50] = {0};
     QVector<QPoint>m_vector;
-    QVector<QPoint>Vec;
 
     QPixmap player;
     QPixmap coin;

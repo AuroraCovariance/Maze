@@ -107,6 +107,7 @@ void MainWindow::generate()
 
 }
 
+//绘制界面
 void MainWindow::paintEvent(QPaintEvent *event)
 {
     QPainter painter(this);
@@ -119,7 +120,7 @@ void MainWindow::paintEvent(QPaintEvent *event)
     else
         max=colint;
 
-    maze_cell_size=600/max;
+    maze_cell_size=600/max;//600是为了保证不超出界面，用650有时会超出（调了好久）
     for(int i=0;i<colint;++i)
     {
         for(int j=0;j<rowint;++j)
@@ -133,19 +134,30 @@ void MainWindow::paintEvent(QPaintEvent *event)
             paint.drawRect(j*maze_cell_size,i*maze_cell_size,maze_cell_size,maze_cell_size);
         }
     }
-    painter.drawPixmap(player_y*maze_cell_size,player_x*maze_cell_size,maze_cell_size,maze_cell_size,player);
-    painter.drawPixmap(end.y*maze_cell_size,end.x*maze_cell_size,maze_cell_size,maze_cell_size,coin);
+    //绘制迷宫
 
     //绘制bfs搜寻到的路径，用画笔连线起来
     if(autofind_on){
-        AutoFind();
-        paint.setBrush(QColor(Qt::yellow));
-        for (int i = 0; i < m_vector.size() - 1; ++i) {
-            QPoint current = m_vector[i];
-            QPoint next = m_vector[i + 1];
-            paint.drawRect(current.y()*maze_cell_size,current.x()*maze_cell_size,maze_cell_size,maze_cell_size);
+        AutoFind(player_x,player_y);
+        QPen pen;
+        pen.setColor(Qt::yellow);
+        pen.setWidth(10);
+        paint.setPen(pen);
+        for(int i=0;i<m_vector.size();++i)
+        {
+            if(i!=m_vector.size()-1)
+            {
+                QPointF aa(m_vector[i].y()*maze_cell_size+maze_cell_size/2.0,m_vector[i].x()*maze_cell_size+maze_cell_size/2.0);
+                QPointF bb(m_vector[i+1].y()*maze_cell_size+maze_cell_size/2.0,m_vector[i+1].x()*maze_cell_size+maze_cell_size/2.0);
+                paint.drawLine(aa,bb);
+            }
+
         }
     }
+
+    painter.drawPixmap(player_y*maze_cell_size,player_x*maze_cell_size,maze_cell_size,maze_cell_size,player);
+    painter.drawPixmap(end.y*maze_cell_size,end.x*maze_cell_size,maze_cell_size,maze_cell_size,coin);
+    //绘制角色和金币
 
     update();
 }
@@ -162,11 +174,11 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
             player_y--;
         break;
     case Qt::Key_S:
-        if(maze[player_x+1][player_y] != WALL && player_x+1 <= colint)
+        if(maze[player_x+1][player_y] != WALL && player_x+1 < colint)
             player_x++;
         break;
     case Qt::Key_D:
-        if(maze[player_x][player_y+1] != WALL && player_x+1 <= rowint)
+        if(maze[player_x][player_y+1] != WALL && player_x+1 < rowint-2)
             player_y++;
         break;
     case Qt::Key_U:
@@ -181,12 +193,11 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 
 //使用bfs找到路径
 
-void MainWindow::AutoFind() {
-    static int _count=0;
-    ++_count;
+void MainWindow::AutoFind(int startx ,int starty) {
 
+    m_vector.clear();
     std::list<node*>saveNode;  //用来保存new的node节点，后面统一释放，避免内存泄漏
-    node *a=new node(QPoint(0,0));visited[player_x][player_y]=1;
+    node *a=new node(QPoint(startx,starty));visited[startx][starty]=1;
     a->parent=NULL;
     saveNode.push_back(a);
     std::queue<node*>tempQueue;
@@ -201,13 +212,13 @@ void MainWindow::AutoFind() {
 
         QList<QPoint>tempList;
         //将上下左右四个方向的位置添加到待访问位置中
-        if((_x-1>=0) && maze[_x-1][_y]==NOTHING && visited[_x-1][_y]==0)
+        if((_x-1>=0) && maze[_x-1][_y]!=WALL && visited[_x-1][_y]==0)
             tempList.append(QPoint(_x-1,_y));
-        if((_x+1)<=rowint && maze[_x+1][_y]==NOTHING && visited[_x+1][_y]==0)
+        if((_x+1)<=rowint && maze[_x+1][_y]!=WALL && visited[_x+1][_y]==0)
             tempList.append(QPoint(_x+1,_y));
-        if((_y-1)>=0 && maze[_x][_y-1]==NOTHING && visited[_x][_y-1]==0)
+        if((_y-1)>=0 && maze[_x][_y-1]!=WALL && visited[_x][_y-1]==0)
             tempList.append(QPoint(_x,_y-1));
-        if((_y+1)<=colint && maze[_x][_y+1]==NOTHING  && visited[_x][_y+1]==0)
+        if((_y+1)<=colint && maze[_x][_y+1]!=WALL  && visited[_x][_y+1]==0)
             tempList.append(QPoint(_x,_y+1));
         while(!tempList.empty())
         {
