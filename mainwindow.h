@@ -7,6 +7,11 @@
 #include<vector>
 #include<ctime>
 #include<QKeyEvent>
+#include<QMessageBox>
+#include<queue>
+#include <utility>
+#include <QVector>
+#include <QPoint>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -24,6 +29,9 @@ public:
     void paintEvent(QPaintEvent *event);
     void FindBlock();
     void generate();
+    bool isValid(int x, int y);
+    QVector<QPoint> AutoFind(int startx, int starty);
+    void StopGame();
     ~MainWindow();
 
 private:
@@ -48,7 +56,22 @@ private:
     std::vector<block> myblock;
     int x_num=0,y_num=0;
 
+    struct node  //宽度搜索时，用来获取到每一次访问的路径
+    {
+        public:
+            node(QPoint a):m_point(a),parent(nullptr)
+            {
+
+            }
+            QPoint m_point;
+            node* parent;
+    };
+    int _maze[50][50] = {0};
+    QVector<QPoint>m_vector;
+    QVector<QPoint>path;
+
     QPixmap player;
+    QPixmap coin;
     Ui::MainWindow *ui;
 };
 #endif // MAINWINDOW_H
