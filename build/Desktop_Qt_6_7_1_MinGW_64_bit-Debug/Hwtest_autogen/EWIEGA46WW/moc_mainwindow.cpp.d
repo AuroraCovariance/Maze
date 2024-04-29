@@ -137,6 +137,7 @@ C:/Users/JackyFeng/Documents/Hwtest/build/Desktop_Qt_6_7_1_MinGW_64_bit-Debug/Hw
   C:/Qt/6.7.1/mingw_64/include/QtCore/qyieldcpu.h \
   C:/Qt/6.7.1/mingw_64/include/QtGui/QKeyEvent \
   C:/Qt/6.7.1/mingw_64/include/QtGui/QPainter \
+  C:/Qt/6.7.1/mingw_64/include/QtGui/QPen \
   C:/Qt/6.7.1/mingw_64/include/QtGui/QPixmap \
   C:/Qt/6.7.1/mingw_64/include/QtGui/QTransform \
   C:/Qt/6.7.1/mingw_64/include/QtGui/qaction.h \

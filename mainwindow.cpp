@@ -7,7 +7,6 @@
 #define left 4
 #define up 8
 #define DESTINATION 6
-#define PATH 7
 
 extern QString col;
 extern QString row;
@@ -23,7 +22,6 @@ MainWindow::MainWindow(QWidget *parent)
     colint = col.toInt();
     rowint = row.toInt();
     generate();
-    AutoFind(0,0);
 }
 
 void MainWindow::FindBlock()
@@ -139,17 +137,17 @@ void MainWindow::paintEvent(QPaintEvent *event)
     painter.drawPixmap(end.y*maze_cell_size,end.x*maze_cell_size,maze_cell_size,maze_cell_size,coin);
 
     //绘制bfs搜寻到的路径，用画笔连线起来
-    QPen pen;
-    pen.setColor(Qt::yellow);
-    pen.setWidth(10);
-    paint.setPen(pen);
-    for(int i=0;i<path.size();++i)
-    {
-        if(i!=path.size()-1)
-        {
-            QPointF aa(path[i].y()*maze_cell_size+maze_cell_size/2.0,path[i].x()*maze_cell_size+maze_cell_size/2.0);
-            QPointF bb(path[i+1].y()*maze_cell_size+maze_cell_size/2.0,path[i+1].x()*maze_cell_size+maze_cell_size/2.0);
-            paint.drawLine(aa,bb);
+    if(autofind_on){
+        path = AutoFind(player_x,player_y);
+        QPen pen;
+        pen.setColor(Qt::yellow);
+        pen.setWidth(10);
+        paint.setPen(pen);
+        for (int i = 0; i < path.size() - 1; ++i) {
+            QPoint current = path[i];
+            QPoint next = path[i + 1];
+            painter.drawLine(current.x() * maze_cell_size + maze_cell_size / 2, current.y() * maze_cell_size + maze_cell_size / 2,
+                             next.x() * maze_cell_size + maze_cell_size / 2, next.y() * maze_cell_size + maze_cell_size / 2);
         }
     }
 
@@ -175,6 +173,9 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
         if(maze[player_x][player_y+1] != WALL && player_x+1 <= rowint)
             player_y++;
         break;
+    case Qt::Key_U:
+        autofind_on = !autofind_on;
+        break;
     default:
         break;
     }
@@ -187,7 +188,6 @@ bool MainWindow::isValid(int x, int y) {
     return (x >= 0 && x < rowint && y >= 0 && y < colint);
 }
 
-// BFS function to find shortest path from start to end
 QVector<QPoint> MainWindow::AutoFind( int startx, int starty) {
     std::queue<std::pair<int, int>> q;
     bool visited[50][50] = {false};
@@ -195,7 +195,7 @@ QVector<QPoint> MainWindow::AutoFind( int startx, int starty) {
     q.push(start);
     visited[startx][starty] = true;
 
-    int dx[] = {1, -1, 0, 0}; // Possible movements: right, left, down, up
+    int dx[] = {1, -1, 0, 0}; // 四个可能得移动方向
     int dy[] = {0, 0, 1, -1};
     QVector<QPoint> path;
 
@@ -205,9 +205,9 @@ QVector<QPoint> MainWindow::AutoFind( int startx, int starty) {
         int x = current.first;
         int y = current.second;
 
-        // If current cell is the destination, path found
+        // 找到终点
         if (x == end.x && y == end.y) {
-            // Reconstruct path
+            // 重新构建路径
             while (!(x == startx && y == starty)) {
                 path.prepend(QPoint(x, y));
                 int prevX = visited[x][y] / 100;
@@ -218,12 +218,12 @@ QVector<QPoint> MainWindow::AutoFind( int startx, int starty) {
             return path;
         }
 
-        // Explore all adjacent cells
+        // 访问临近格子
         for (int i = 0; i < 4; ++i) {
             int newX = x + dx[i];
             int newY = y + dy[i];
 
-            // Check if the new position is valid and not visited yet
+            // 检查是否访问过
             if (isValid(newX, newY) && maze[newX][newY] == 0 && !visited[newX][newY]) {
                 q.push(std::make_pair(newX, newY));
                 visited[newX][newY] = x * 100 + y;
@@ -231,7 +231,7 @@ QVector<QPoint> MainWindow::AutoFind( int startx, int starty) {
         }
     }
 
-    // If no path found
+    // 没找到
     return QVector<QPoint>();
 }
 

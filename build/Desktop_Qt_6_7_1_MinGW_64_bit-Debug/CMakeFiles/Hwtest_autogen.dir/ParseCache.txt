@@ -138,6 +138,7 @@ C:/Users/JackyFeng/Documents/Hwtest/mainwindow.h
  mdp:C:/Qt/6.7.1/mingw_64/include/QtCore/qyieldcpu.h
  mdp:C:/Qt/6.7.1/mingw_64/include/QtGui/QKeyEvent
  mdp:C:/Qt/6.7.1/mingw_64/include/QtGui/QPainter
+ mdp:C:/Qt/6.7.1/mingw_64/include/QtGui/QPen
  mdp:C:/Qt/6.7.1/mingw_64/include/QtGui/QPixmap
  mdp:C:/Qt/6.7.1/mingw_64/include/QtGui/QTransform
  mdp:C:/Qt/6.7.1/mingw_64/include/QtGui/qaction.h

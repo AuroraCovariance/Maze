@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include<QPainter>
+#include<QPen>
 #include<QPixmap>
 #include<vector>
 #include<ctime>
@@ -40,6 +41,7 @@ private:
     int rowint;
     int maze_cell_size;
     int player_x,player_y;
+    bool autofind_on;
 
     struct block{
         int row,column,direction;
