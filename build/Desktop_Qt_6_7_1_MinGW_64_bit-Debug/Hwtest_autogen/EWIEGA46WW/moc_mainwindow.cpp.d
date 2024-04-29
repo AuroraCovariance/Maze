@@ -1,5 +1,6 @@
 C:/Users/JackyFeng/Documents/Hwtest/build/Desktop_Qt_6_7_1_MinGW_64_bit-Debug/Hwtest_autogen/EWIEGA46WW/moc_mainwindow.cpp: C:/Users/JackyFeng/Documents/Hwtest/mainwindow.h \
   C:/Users/JackyFeng/Documents/Hwtest/build/Desktop_Qt_6_7_1_MinGW_64_bit-Debug/Hwtest_autogen/moc_predefs.h \
+  C:/Qt/6.7.1/mingw_64/include/QtCore/QStack \
   C:/Qt/6.7.1/mingw_64/include/QtCore/q20functional.h \
   C:/Qt/6.7.1/mingw_64/include/QtCore/q20memory.h \
   C:/Qt/6.7.1/mingw_64/include/QtCore/q20type_traits.h \
@@ -78,6 +79,7 @@ C:/Users/JackyFeng/Documents/Hwtest/build/Desktop_Qt_6_7_1_MinGW_64_bit-Debug/Hw
   C:/Qt/6.7.1/mingw_64/include/QtCore/qsharedpointer.h \
   C:/Qt/6.7.1/mingw_64/include/QtCore/qsharedpointer_impl.h \
   C:/Qt/6.7.1/mingw_64/include/QtCore/qsize.h \
+  C:/Qt/6.7.1/mingw_64/include/QtCore/qstack.h \
   C:/Qt/6.7.1/mingw_64/include/QtCore/qstring.h \
   C:/Qt/6.7.1/mingw_64/include/QtCore/qstringalgorithms.h \
   C:/Qt/6.7.1/mingw_64/include/QtCore/qstringbuilder.h \
