@@ -1,5 +1,6 @@
 C:/Users/JackyFeng/Documents/Hwtest/build/Desktop_Qt_6_7_1_MinGW_64_bit-Debug/Hwtest_autogen/EWIEGA46WW/moc_mainwindow.cpp: C:/Users/JackyFeng/Documents/Hwtest/mainwindow.h \
   C:/Users/JackyFeng/Documents/Hwtest/build/Desktop_Qt_6_7_1_MinGW_64_bit-Debug/Hwtest_autogen/moc_predefs.h \
+  C:/Qt/6.7.1/mingw_64/include/QtCore/QDebug \
   C:/Qt/6.7.1/mingw_64/include/QtCore/QList \
   C:/Qt/6.7.1/mingw_64/include/QtCore/QObject \
   C:/Qt/6.7.1/mingw_64/include/QtCore/QPoint \

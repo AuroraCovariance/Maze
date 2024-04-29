@@ -4,6 +4,7 @@
 
 QString col;
 QString row;
+//全局变量，方便ui间传递
 
 start::start(QWidget *parent)
     : QWidget(parent)
@@ -34,5 +35,6 @@ void start::on_check_clicked()
         ui->row->clear();
         ui->col->clear();
     }
+    //对输入进行处理
 }
 

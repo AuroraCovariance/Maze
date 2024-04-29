@@ -112,7 +112,7 @@ void MainWindow::paintEvent(QPaintEvent *event)
     QPainter painter(this);
 
     painter.setPen(QPen(Qt::black, 1, Qt::SolidLine));
-    QPainter paint(this);//paint.setBrush(QColor(Qt::red));
+    QPainter paint(this);
     int max;
     if(rowint>=colint)
         max=rowint;
@@ -138,16 +138,12 @@ void MainWindow::paintEvent(QPaintEvent *event)
 
     //绘制bfs搜寻到的路径，用画笔连线起来
     if(autofind_on){
-        path = AutoFind(player_x,player_y);
-        QPen pen;
-        pen.setColor(Qt::yellow);
-        pen.setWidth(10);
-        paint.setPen(pen);
-        for (int i = 0; i < path.size() - 1; ++i) {
-            QPoint current = path[i];
-            QPoint next = path[i + 1];
-            painter.drawLine(current.x() * maze_cell_size + maze_cell_size / 2, current.y() * maze_cell_size + maze_cell_size / 2,
-                             next.x() * maze_cell_size + maze_cell_size / 2, next.y() * maze_cell_size + maze_cell_size / 2);
+        AutoFind();
+        paint.setBrush(QColor(Qt::yellow));
+        for (int i = 0; i < m_vector.size() - 1; ++i) {
+            QPoint current = m_vector[i];
+            QPoint next = m_vector[i + 1];
+            paint.drawRect(current.y()*maze_cell_size,current.x()*maze_cell_size,maze_cell_size,maze_cell_size);
         }
     }
 
@@ -184,55 +180,74 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 }
 
 //使用bfs找到路径
-bool MainWindow::isValid(int x, int y) {
-    return (x >= 0 && x < rowint && y >= 0 && y < colint);
-}
 
-QVector<QPoint> MainWindow::AutoFind( int startx, int starty) {
-    std::queue<std::pair<int, int>> q;
-    bool visited[50][50] = {false};
-    std::pair<int, int> start = std::make_pair(startx, starty);
-    q.push(start);
-    visited[startx][starty] = true;
+void MainWindow::AutoFind() {
+    static int _count=0;
+    ++_count;
 
-    int dx[] = {1, -1, 0, 0}; // 四个可能得移动方向
-    int dy[] = {0, 0, 1, -1};
-    QVector<QPoint> path;
+    std::list<node*>saveNode;  //用来保存new的node节点，后面统一释放，避免内存泄漏
+    node *a=new node(QPoint(0,0));visited[player_x][player_y]=1;
+    a->parent=NULL;
+    saveNode.push_back(a);
+    std::queue<node*>tempQueue;
+    tempQueue.push(a);
+    while(!tempQueue.empty())
+    {
+        node *aa=tempQueue.front();
+        tempQueue.pop();
+        int _x=aa->m_point.x();
+        int _y=aa->m_point.y();
 
-    while (!q.empty()) {
-        std::pair<int, int> current = q.front();
-        q.pop();
-        int x = current.first;
-        int y = current.second;
 
-        // 找到终点
-        if (x == end.x && y == end.y) {
-            // 重新构建路径
-            while (!(x == startx && y == starty)) {
-                path.prepend(QPoint(x, y));
-                int prevX = visited[x][y] / 100;
-                y = visited[x][y] % 100;
-                x = prevX;
+        QList<QPoint>tempList;
+        //将上下左右四个方向的位置添加到待访问位置中
+        if((_x-1>=0) && maze[_x-1][_y]==NOTHING && visited[_x-1][_y]==0)
+            tempList.append(QPoint(_x-1,_y));
+        if((_x+1)<=rowint && maze[_x+1][_y]==NOTHING && visited[_x+1][_y]==0)
+            tempList.append(QPoint(_x+1,_y));
+        if((_y-1)>=0 && maze[_x][_y-1]==NOTHING && visited[_x][_y-1]==0)
+            tempList.append(QPoint(_x,_y-1));
+        if((_y+1)<=colint && maze[_x][_y+1]==NOTHING  && visited[_x][_y+1]==0)
+            tempList.append(QPoint(_x,_y+1));
+        while(!tempList.empty())
+        {
+            //随机取出上下左右四个位置中的一个
+            int x11=rand()%(tempList.size());
+            int _x1=tempList.at(x11).x();
+            int _y1=tempList.at(x11).y();
+            if(_x1==end.x && _y1==end.y)  //找到路径
+            {
+
+                node *tempaa=aa;
+                while(tempaa)
+                {
+                    //  将搜寻到的路径点保存到vector中
+                    m_vector.push_front(QPoint(tempaa->m_point.x(),tempaa->m_point.y()));
+                    tempaa=tempaa->parent;
+                }
+
+                //删除所有Node指针
+                for(auto it:saveNode)
+                {
+                    if(it !=NULL)
+                    {
+                        delete it;
+                        it=NULL;
+                    }
+                }
+                return ;
             }
-            path.prepend(QPoint(startx, starty));
-            return path;
+
+            visited[_x1][_y1]=1;
+            node *a1=new node(QPoint(_x1,_y1));
+            saveNode.push_back(a1);
+            a1->parent=aa;
+            tempQueue.push(a1);
+            tempList.removeAt(x11);
+
         }
 
-        // 访问临近格子
-        for (int i = 0; i < 4; ++i) {
-            int newX = x + dx[i];
-            int newY = y + dy[i];
-
-            // 检查是否访问过
-            if (isValid(newX, newY) && maze[newX][newY] == 0 && !visited[newX][newY]) {
-                q.push(std::make_pair(newX, newY));
-                visited[newX][newY] = x * 100 + y;
-            }
-        }
     }
-
-    // 没找到
-    return QVector<QPoint>();
 }
 
 void MainWindow::StopGame()

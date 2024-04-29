@@ -13,6 +13,7 @@
 #include <utility>
 #include <QVector>
 #include <QPoint>
+#include<QDebug>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -30,8 +31,7 @@ public:
     void paintEvent(QPaintEvent *event);
     void FindBlock();
     void generate();
-    bool isValid(int x, int y);
-    QVector<QPoint> AutoFind(int startx, int starty);
+    void AutoFind();
     void StopGame();
     ~MainWindow();
 
@@ -41,7 +41,7 @@ private:
     int rowint;
     int maze_cell_size;
     int player_x,player_y;
-    bool autofind_on;
+    bool autofind_on = false;
 
     struct block{
         int row,column,direction;
@@ -68,9 +68,9 @@ private:
             QPoint m_point;
             node* parent;
     };
-    int _maze[50][50] = {0};
+    int visited[50][50] = {0};
     QVector<QPoint>m_vector;
-    QVector<QPoint>path;
+    QVector<QPoint>Vec;
 
     QPixmap player;
     QPixmap coin;
