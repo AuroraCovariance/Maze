@@ -6,6 +6,7 @@
 #define right 2
 #define left 4
 #define up 8
+#define DESTINATION 6
 
 extern QString col;
 extern QString row;
@@ -19,6 +20,7 @@ MainWindow::MainWindow(QWidget *parent)
     player.load(":/player.jpg");
     colint = col.toInt();
     rowint = row.toInt();
+    generate();
 }
 
 void MainWindow::FindBlock()
@@ -44,6 +46,7 @@ void MainWindow::generate()
     //定义起始点
     maze[0][0] = NOTHING;
     start.x = start.y = 0;
+    player_x = player_y = 0;
     //初始化迷宫数组
 
     srand((unsigned)time(NULL));
@@ -92,6 +95,7 @@ void MainWindow::generate()
         //删除这堵墙(把用不了的墙删了，对于那些已经施工过了不必再施工了，同时也是确保我们能跳出循环)
         myblock.erase(myblock.begin()+randnum);
     }
+
 }
 
 void MainWindow::paintEvent(QPaintEvent *event)
@@ -107,15 +111,11 @@ void MainWindow::paintEvent(QPaintEvent *event)
         max=colint;
 
     maze_cell_size=600/max;
-    int colLength=this->width()/max;
-    int rowLength=this->height()/max;
     for(int i=0;i<colint;++i)
     {
         for(int j=0;j<rowint;++j)
         {
-            if(i == start.x && j == start.y)
-                painter.drawPixmap(j*maze_cell_size,i*maze_cell_size,maze_cell_size,maze_cell_size,player);
-            else if(maze[i][j] == NOTHING)
+            if(maze[i][j] == NOTHING)
             {
                 paint.setBrush(QColor(Qt::black));
             }
@@ -124,8 +124,34 @@ void MainWindow::paintEvent(QPaintEvent *event)
             paint.drawRect(j*maze_cell_size,i*maze_cell_size,maze_cell_size,maze_cell_size);
         }
     }
+    painter.drawPixmap(player_y*maze_cell_size,player_x*maze_cell_size,maze_cell_size,maze_cell_size,player);
+
+    update();
 }
 
+void MainWindow::keyPressEvent(QKeyEvent *event)
+{
+    switch (event->key()) {
+    case Qt::Key_W:
+        if(maze[player_x-1][player_y] == NOTHING && player_x > 0)
+            player_x--;
+        break;
+    case Qt::Key_A:
+        if(maze[player_x][player_y-1] == NOTHING && player_y > 0)
+            player_y--;
+        break;
+    case Qt::Key_S:
+        if(maze[player_x+1][player_y] == NOTHING && player_x+1 < colint)
+            player_x++;
+        break;
+    case Qt::Key_D:
+        if(maze[player_x][player_y+1] == NOTHING && player_x+1 < rowint)
+            player_y++;
+        break;
+    default:
+        break;
+    }
+}
 
 MainWindow::~MainWindow()
 {

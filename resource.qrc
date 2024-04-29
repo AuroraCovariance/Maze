@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/">
         <file>player.jpg</file>
+        <file>coin.jpg</file>
     </qresource>
 </RCC>

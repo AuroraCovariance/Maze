@@ -6,6 +6,7 @@
 #include<QPixmap>
 #include<vector>
 #include<ctime>
+#include<QKeyEvent>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -19,6 +20,7 @@ class MainWindow : public QMainWindow
 
 public:
     MainWindow(QWidget *parent = nullptr);
+    void keyPressEvent(QKeyEvent *event);
     void paintEvent(QPaintEvent *event);
     void FindBlock();
     void generate();
@@ -29,6 +31,7 @@ private:
     int colint;
     int rowint;
     int maze_cell_size;
+    int player_x,player_y;
 
     struct block{
         int row,column,direction;

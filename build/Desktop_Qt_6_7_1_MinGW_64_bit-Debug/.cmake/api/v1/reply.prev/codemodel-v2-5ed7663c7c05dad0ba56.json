@@ -7,7 +7,7 @@
 				{
 					"build" : ".",
 					"hasInstallRule" : true,
-					"jsonFile" : "directory-.-Debug-9bd01b90765790755e30.json",
+					"jsonFile" : "directory-.-Debug-05b35f262f0167775baf.json",
 					"minimumCMakeVersion" : 
 					{
 						"string" : "3.16"
@@ -44,7 +44,7 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "Hwtest::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-Hwtest-Debug-1a8b634823ed304e635f.json",
+					"jsonFile" : "target-Hwtest-Debug-d662d71fe27e2531b937.json",
 					"name" : "Hwtest",
 					"projectIndex" : 0
 				},

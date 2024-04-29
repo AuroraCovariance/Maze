@@ -75,13 +75,13 @@
 			{
 				"command" : 4,
 				"file" : 1,
-				"line" : 64,
+				"line" : 65,
 				"parent" : 0
 			},
 			{
 				"command" : 5,
 				"file" : 1,
-				"line" : 47,
+				"line" : 48,
 				"parent" : 0
 			},
 			{
@@ -365,7 +365,8 @@
 				0,
 				1,
 				2,
-				8
+				7,
+				12
 			]
 		}
 	],
@@ -489,7 +490,8 @@
 				0,
 				1,
 				2,
-				8
+				7,
+				12
 			]
 		},
 		{
@@ -497,7 +499,9 @@
 			"sourceIndexes" : 
 			[
 				3,
-				6
+				6,
+				9,
+				10
 			]
 		},
 		{
@@ -506,15 +510,16 @@
 			[
 				4,
 				5,
-				7
+				8,
+				11
 			]
 		},
 		{
 			"name" : "CMake Rules",
 			"sourceIndexes" : 
 			[
-				9,
-				10
+				13,
+				14
 			]
 		}
 	],
@@ -555,9 +560,31 @@
 			"sourceGroupIndex" : 2
 		},
 		{
+			"backtrace" : 4,
+			"path" : "start.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 4,
+			"compileGroupIndex" : 0,
+			"path" : "start.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 4,
+			"path" : "start.ui",
+			"sourceGroupIndex" : 2
+		},
+		{
 			"backtrace" : 0,
 			"isGenerated" : true,
 			"path" : "build/Desktop_Qt_6_7_1_MinGW_64_bit-Debug/Hwtest_autogen/include/ui_mainwindow.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/Desktop_Qt_6_7_1_MinGW_64_bit-Debug/Hwtest_autogen/include/ui_start.h",
 			"sourceGroupIndex" : 1
 		},
 		{

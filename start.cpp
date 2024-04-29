@@ -26,7 +26,10 @@ void start::on_check_clicked()
         MainWindow* w = new MainWindow();
         w->show();
         this->close();
-    }else{
+    }
+    else if(col.isEmpty() || row.isEmpty())
+        QMessageBox::warning(this,tr("输入错误"),tr("请输入"),QMessageBox::Ok);
+    else{
         QMessageBox::warning(this,tr("输入错误"),tr("行列数必须小于等于50"),QMessageBox::Ok);
         ui->row->clear();
         ui->col->clear();
