@@ -399,9 +399,9 @@ C:/Users/JackyFeng/Documents/Hwtest/mainwindow.h
  mdp:C:/Qt/Tools/mingw1120_64/x86_64-w64-mingw32/include/wchar.h
  mdp:C:/Users/JackyFeng/Documents/Hwtest/build/Desktop_Qt_6_7_1_MinGW_64_bit-Debug/Hwtest_autogen/moc_predefs.h
  mdp:C:/Users/JackyFeng/Documents/Hwtest/mainwindow.h
-C:/Users/JackyFeng/Documents/Hwtest/main.cpp
 C:/Users/JackyFeng/Documents/Hwtest/mainwindow.cpp
  uic:./ui_mainwindow.h
+C:/Users/JackyFeng/Documents/Hwtest/main.cpp
 C:/Users/JackyFeng/Documents/Hwtest/start.h
  mmc:Q_OBJECT
  mdp:C:/Qt/6.7.1/mingw_64/include/QtCore/q20functional.h

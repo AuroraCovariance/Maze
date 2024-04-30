@@ -143,12 +143,12 @@ void MainWindow::paintEvent(QPaintEvent *event)
         pen.setColor(Qt::yellow);
         pen.setWidth(10);
         paint.setPen(pen);
-        for(int i=0;i<m_vector.size();++i)
+        for(int i=0;i<path.size();++i)
         {
-            if(i!=m_vector.size()-1)
+            if(i!=path.size()-1)
             {
-                QPointF aa(m_vector[i].y()*maze_cell_size+maze_cell_size/2.0,m_vector[i].x()*maze_cell_size+maze_cell_size/2.0);
-                QPointF bb(m_vector[i+1].y()*maze_cell_size+maze_cell_size/2.0,m_vector[i+1].x()*maze_cell_size+maze_cell_size/2.0);
+                QPointF aa(path[i].y()*maze_cell_size+maze_cell_size/2.0,path[i].x()*maze_cell_size+maze_cell_size/2.0);
+                QPointF bb(path[i+1].y()*maze_cell_size+maze_cell_size/2.0,path[i+1].x()*maze_cell_size+maze_cell_size/2.0);
                 paint.drawLine(aa,bb);
             }
 
@@ -195,7 +195,8 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 
 void MainWindow::AutoFind(int startx ,int starty) {
 
-    m_vector.clear();
+    path.clear();
+    int visited[50][50] = {0};//一定要清零，这个bug我修了好久
     std::list<node*>saveNode;  //用来保存new的node节点，后面统一释放，避免内存泄漏
     node *a=new node(QPoint(startx,starty));visited[startx][starty]=1;
     a->parent=NULL;
@@ -233,7 +234,7 @@ void MainWindow::AutoFind(int startx ,int starty) {
                 while(tempaa)
                 {
                     //  将搜寻到的路径点保存到vector中
-                    m_vector.push_front(QPoint(tempaa->m_point.x(),tempaa->m_point.y()));
+                    path.push_front(QPoint(tempaa->m_point.x(),tempaa->m_point.y()));
                     tempaa=tempaa->parent;
                 }
 

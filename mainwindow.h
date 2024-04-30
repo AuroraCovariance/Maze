@@ -41,7 +41,7 @@ private:
     int rowint;
     int maze_cell_size;
     int player_x,player_y;
-    bool autofind_on = false;
+    bool autofind_on = false;//基本数据
 
     struct block{
         int row,column,direction;
@@ -56,7 +56,7 @@ private:
         int y;
     }start,end;
     std::vector<block> myblock;
-    int x_num=0,y_num=0;
+    int x_num=0,y_num=0;//生成迷宫所用数据结构
 
     struct node  //宽度搜索时，用来获取到每一次访问的路径
     {
@@ -68,11 +68,10 @@ private:
             QPoint m_point;
             node* parent;
     };
-    int visited[50][50] = {0};
-    QVector<QPoint>m_vector;
+    QVector<QPoint>path;
 
     QPixmap player;
     QPixmap coin;
-    Ui::MainWindow *ui;
+    Ui::MainWindow *ui;//图像
 };
 #endif // MAINWINDOW_H
